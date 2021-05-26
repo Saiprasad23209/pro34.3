@@ -1,43 +1,51 @@
-var dogstand,dagsit, foodS, foodStock,Database;
+var Dog,dogstand,dogsit
 
 function preload(){
-dogstand=loadImage("images/dogImg.png")
-dogsit=loadImage("images/dogImg1.png")
+dogstand=loadImage("images/dogimg.png")
+dogsit=loadImage("images/dogimg1.png")
 
 }
 
 function setup(){
     createCanvas(500,500);
-    Database=firebase.database()
-    dog=createSprite(250,300,10,10)
-    dog.addImage(dogstand)
-    dog.scale=0.2
-    foodStock=Database.ref("Food")
-    foodStock.on("value",readstock)
-    
+    Database=firebase.database();
+   foodStock = database.ref("Food");
+   foodStock.on("value",readStock);
+   Dog=createSprite(250,200,100,100);
+   Dog.addImage()
 }
 
 function draw(){
     background("white");
-   if(keyDown(UP_ARROW)){
-writeStock(foodS)
-   }
-   textSize(25)
-   text("Food Remaining :"+ foodS,150,200)
-   text("Note:- Press up arrow to feed the dog",50,30)
+    
+if(keyDown(UP_ARROW)){
+    writeStock(foodS);
+    Dog.addImage(dogstand)
+    }
     drawSprites();
 }
-function readstock(data){
-    foodS=data.val()
-}
+
+
+
 function writeStock(x){
     if(x<=0){
-        x=0;}
+        x=o;}
   else{
       x=x-1;
         }
-        Database.ref('/').update({
+        database.ref('/').update({
             Food:x
         })
     }
 
+    function readStock(data){
+        foodS=data.val();
+    }
+
+    function writeStock(x){
+
+        database.ref('/').update({
+            Food:x
+        })
+
+    }
